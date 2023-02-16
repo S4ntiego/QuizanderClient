@@ -8,6 +8,7 @@ import useScroll from "@/lib/hooks/use-scroll";
 import Meta from "./meta";
 import { useSignInModal } from "./sign-in-modal";
 import UserDropdown from "./user-dropdown";
+import { ThemeToggle } from "../ThemeToggle";
 
 export default function Layout({
   meta,
@@ -47,7 +48,9 @@ export default function Layout({
             ></Image>
             <p>Precedent</p>
           </Link>
-          <div>
+
+          <ThemeToggle className="mr-2 inline-block" />
+          <div className=" flex w-48 justify-end">
             <AnimatePresence>
               {!session && status !== "loading" ? (
                 <motion.button

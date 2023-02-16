@@ -7,6 +7,7 @@ import { Provider as RWBProvider } from "react-wrap-balancer";
 import cx from "classnames";
 import localFont from "@next/font/local";
 import { Inter } from "@next/font/google";
+import { ThemeProvider } from "next-themes";
 
 const sfPro = localFont({
   src: "../styles/SF-Pro-Display-Medium.otf",
@@ -23,13 +24,15 @@ export default function MyApp({
   pageProps: { session, ...pageProps },
 }: AppProps<{ session: Session }>) {
   return (
-    <SessionProvider session={session}>
-      <RWBProvider>
-        <div className={cx(sfPro.variable, inter.variable)}>
-          <Component {...pageProps} />
-        </div>
-      </RWBProvider>
-      <Analytics />
-    </SessionProvider>
+    <ThemeProvider attribute="class" enableSystem defaultTheme="system">
+      <SessionProvider session={session}>
+        <RWBProvider>
+          <div className={cx(sfPro.variable, inter.variable)}>
+            <Component {...pageProps} />
+          </div>
+        </RWBProvider>
+        <Analytics />
+      </SessionProvider>
+    </ThemeProvider>
   );
 }
