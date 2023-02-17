@@ -78,7 +78,6 @@ export default function QuizzesForm() {
       values,
       (value) => value !== "" && value !== undefined,
     );
-
     const { coverImage, ...quizBody } = filteredFormData;
     if (typeof coverImage === "object") {
       formData.append("coverImage", filteredFormData.coverImage[0]);
@@ -89,6 +88,7 @@ export default function QuizzesForm() {
     //   formData.append(key, JSON.stringify(val))
     // }
 
+    console.log(values);
     uploadImage(formData);
   };
 

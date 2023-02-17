@@ -80,6 +80,7 @@ export default function QuizzesForm() {
     );
 
     const { coverImage, ...quizBody } = filteredFormData;
+    console.log(coverImage);
     if (typeof coverImage === "object") {
       formData.append("coverImage", filteredFormData.coverImage[0]);
     }
