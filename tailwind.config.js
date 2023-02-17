@@ -11,6 +11,12 @@ module.exports = {
     hoverOnlyWhenSupported: true,
   },
   theme: {
+    container: {
+      center: true,
+      padding: "1.5rem",
+      screens: {
+        "2xl": "1440px",
+      },
     extend: {
       fontFamily: {
         display: ["var(--font-sf)", "system-ui", "sans-serif"],
@@ -43,4 +49,4 @@ module.exports = {
       addVariant("radix-side-bottom", '&[data-side="bottom"]');
     }),
   ],
-};
+}}
