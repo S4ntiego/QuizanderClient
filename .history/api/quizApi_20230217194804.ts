@@ -17,11 +17,7 @@ export const getQuizFn = async (id: string) => {
 };
 
 export const createQuizFn = async (formData: FormData) => {
-  const response = await axios.post(`/api/quiz/upload-quiz`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const response = await authApi.post<IQuizResponse>(`quizzes`, formData);
   return response.data;
 };
 

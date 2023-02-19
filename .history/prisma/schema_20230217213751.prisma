@@ -87,5 +87,6 @@ model Quiz {
   createdById  String
   plays        Int      @default(0)
   type         String   @default("multiple choice")
+  scores       Float[]
   questions    Question[]
 }

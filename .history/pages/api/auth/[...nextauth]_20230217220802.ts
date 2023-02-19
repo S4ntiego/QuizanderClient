@@ -12,11 +12,13 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ token, session, user }) {
+    async session({ token, session }) {
       // Send properties to the client, like an access_token and user id from a provider
-
-      if (session?.user) {
-        session.user.id = user.id;
+      if (token) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.image = token.picture;
       }
 
       return session;

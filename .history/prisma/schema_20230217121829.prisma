@@ -81,11 +81,11 @@ model Quiz {
   title        String
   description  String
   category     String
-  coverImage  String
   createdAt    DateTime @default(now())
   createdBy    User     @relation(fields: [createdById], references: [id])
   createdById  String
   plays        Int      @default(0)
   type         String   @default("multiple choice")
+  scores       Float[]
   questions    Question[]
 }

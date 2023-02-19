@@ -39,7 +39,6 @@ export interface IQuizRequest {
   description: string;
   category: string;
   createdBy: string;
-  coverImage: string;
 }
 
 export interface IQuizResponse {
@@ -47,7 +46,6 @@ export interface IQuizResponse {
   title: string;
   description: string;
   category: string;
-  coverImage: string;
   createdBy: IUser;
   created_at: string;
   updated_at: string;

@@ -14,11 +14,13 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ token, session, user }) {
       // Send properties to the client, like an access_token and user id from a provider
-
-      if (session?.user) {
-        session.user.id = user.id;
-      }
-
+      session = {
+        ...session,
+        user: {
+          id: user.id,
+          ...session.user,
+        },
+      };
       return session;
     },
     async jwt({ token, user }) {
