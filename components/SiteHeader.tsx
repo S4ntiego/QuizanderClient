@@ -6,7 +6,7 @@ import { Icons } from "@/components/Icons";
 import { MainNav } from "@/components/MainNav";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { useSession } from "next-auth/react";
+import { signOut, useSession, signIn } from "next-auth/react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,25 +17,33 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AnimatePresence, motion, useScroll } from "framer-motion";
-import UserDropdown from "./layout/user-dropdown";
+import { AnimatePresence, motion } from "framer-motion";
 import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
-import { useSignInModal } from "./layout/sign-in-modal";
+import { Avatar, AvatarImage } from "./ui/avatar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Separator } from "./ui/separator";
+import UserDropdown from "./UserDropdown";
 
 export function SiteHeader() {
   const { data: session, status } = useSession();
-  const { SignInModal, setShowSignInModal } = useSignInModal();
+  const { image, name } = session?.user || {};
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-b-slate-200 bg-white dark:border-b-slate-700 dark:bg-slate-900">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
         <MainNav items={siteConfig.mainNav} />
-        <SignInModal />
         <div className="flex flex-1 items-center justify-end gap-6 space-x-4">
           <AnimatePresence>
             {!session && status !== "loading" ? (
               <div className="flex">
-                <nav className="flex items-center space-x-1">
+                <nav className="mr-4 flex items-center space-x-1">
                   <Link
                     href={siteConfig.links.github}
                     target="_blank"
@@ -70,14 +78,27 @@ export function SiteHeader() {
                   </Link>
                   <ThemeToggle />
                 </nav>
-
-                <motion.button
-                  className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"
-                  onClick={() => setShowSignInModal(true)}
-                  {...FADE_IN_ANIMATION_SETTINGS}
-                >
-                  Sign In
-                </motion.button>
+                <Dialog>
+                  <DialogTrigger>
+                    <Button variant="outline" {...FADE_IN_ANIMATION_SETTINGS}>
+                      Register / Log in
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Login</DialogTitle>
+                      <DialogDescription>
+                        Join the Quizander community. Have fun solving quizzes
+                        from the the Harry Potter's universe and save your
+                        achievements!
+                      </DialogDescription>
+                      <Separator />
+                      <Button onClick={() => signIn("google")}>
+                        Sign in with Google
+                      </Button>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
               </div>
             ) : (
               <UserDropdown />

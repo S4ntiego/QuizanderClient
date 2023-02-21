@@ -52,8 +52,18 @@ const handler = async (req: RequestWithFile, res: NextApiResponse) => {
         data: {
           title: JSON.parse(title),
           description: JSON.parse(description),
-          questions: JSON.parse(questions),
           category: JSON.parse(category),
+          questions: {
+            create: JSON.parse(questions).map((question: any) => ({
+              question: question.question,
+              answers: {
+                create: question.answers.map((answer: any) => ({
+                  answer: answer.answer,
+                  isCorrect: answer.isCorrect,
+                })),
+              },
+            })),
+          },
           coverImage: coverImageName,
           createdById: session.user.id,
         },
