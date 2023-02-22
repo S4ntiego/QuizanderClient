@@ -5,8 +5,11 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 export const getQuizFn = async (id) => {
+  console.log(id);
   const response = await axios.get(`http://localhost:3000/api/quiz/${id}`);
   const quez = response.data;
+  console.log("xD");
+  console.log(quez);
   return quez;
 };
 
@@ -15,11 +18,12 @@ const Siema = () => {
   const { id } = router.query;
 
   const { isLoading, data: quiz } = useQuery({
-    queryKey: ["quiz", id],
-    queryFn: () => getQuizFn(id),
+    queryKey: ["quizzes"],
+    queryFn: () => axios.get(`http://localhost:3000/api/quiz/${id}`),
   });
 
-  return <Quiz quiz={quiz} />;
+  console.log(quiz);
+  return <div />;
 };
 
 export default Siema;

@@ -19,7 +19,8 @@ const Siema = () => {
     queryFn: () => getQuizFn(id),
   });
 
-  return <Quiz quiz={quiz} />;
+  console.log(quiz);
+  return <div />;
 };
 
 export default Siema;

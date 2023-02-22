@@ -20,19 +20,12 @@ interface Quiz {
   updatedAt: string;
 }
 
-export const getQuizzesFn = async () => {
-  const response = await axios.get(
-    `http://localhost:3000/api/quiz/get-quizzes`,
-  );
-  return response.data;
-};
-
 export default function BlogPage() {
-  const { isLoading, data: quizzes } = useQuery({
+  const quizzes = useQuery({
     queryKey: ["quizzes"],
-    queryFn: () => getQuizzesFn(),
+    queryFn: () => axios.get("http://localhost:3000/api/quiz/get-quizzes"),
+    select: (data) => JSON.parse(JSON.stringify(data)),
   });
-
   return (
     <section className="container grid items-center gap-6 pt-6 pb-8 md:py-10">
       <div className="flex max-w-[980px] flex-col items-start gap-2">
@@ -45,7 +38,7 @@ export default function BlogPage() {
       </div>
 
       <div className="relative flex space-x-4">
-        {quizzes?.map((quiz) => (
+        {quizzes.map((quiz) => (
           <QuizArtwork key={quiz.title} quiz={quiz} className="w-96" />
         ))}
       </div>

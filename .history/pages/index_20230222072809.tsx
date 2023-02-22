@@ -1,12 +1,10 @@
 import LandingLayout from "@/components/LandingLayout";
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import React, { cache } from "react";
 
 import Link from "next/link";
 import { cn, formatDate } from "@/lib/utils";
 import Image from "next/image";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import axios from "axios";
 
 interface Quiz {
   id: string;
@@ -20,19 +18,19 @@ interface Quiz {
   updatedAt: string;
 }
 
-export const getQuizzesFn = async () => {
-  const response = await axios.get(
-    `http://localhost:3000/api/quiz/get-quizzes`,
+export async function getServerSideProps({ res }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59",
   );
-  return response.data;
-};
 
-export default function BlogPage() {
-  const { isLoading, data: quizzes } = useQuery({
-    queryKey: ["quizzes"],
-    queryFn: () => getQuizzesFn(),
-  });
+  const response = await fetch("http://localhost:3000/api/quiz/get-quizzes");
+  const quizzes = await response.json();
 
+  return { props: { quizzes } };
+}
+
+export default function BlogPage({ quizzes }) {
   return (
     <section className="container grid items-center gap-6 pt-6 pb-8 md:py-10">
       <div className="flex max-w-[980px] flex-col items-start gap-2">
@@ -45,7 +43,7 @@ export default function BlogPage() {
       </div>
 
       <div className="relative flex space-x-4">
-        {quizzes?.map((quiz) => (
+        {quizzes.map((quiz) => (
           <QuizArtwork key={quiz.title} quiz={quiz} className="w-96" />
         ))}
       </div>

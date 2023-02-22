@@ -53,7 +53,7 @@ export function Quiz({ quiz }) {
         <div>
           <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
             <p className="text-md">
-              {currentQuestionIndex + 1} / {quiz?.questions.length}
+              {currentQuestionIndex + 1} / {quiz.questions.length}
             </p>
             <h1 className="font-playfair text-4xl font-black leading-tight tracking-tight text-slate-900 dark:text-slate-50 lg:text-5xl">
               {quiz?.questions[currentQuestionIndex].question}
